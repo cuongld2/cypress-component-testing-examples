@@ -3,6 +3,7 @@ package main
 import (
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -53,6 +54,87 @@ type HistoryResponse struct {
 var conditions = []string{"Clear", "Clouds", "Rain", "Snow", "Thunderstorm", "Mist"}
 var icons = []string{"01d", "02d", "10d", "13d", "11d", "50d"}
 
+var cityCountries = map[string]string{
+	"London":        "GB",
+	"New York":      "US",
+	"Tokyo":         "JP",
+	"Paris":         "FR",
+	"Berlin":        "DE",
+	"Sydney":        "AU",
+	"Toronto":       "CA",
+	"Mumbai":        "IN",
+	"Beijing":       "CN",
+	"Madrid":        "ES",
+	"Rome":          "IT",
+	"Amsterdam":     "NL",
+	"Bangkok":       "TH",
+	"Singapore":     "SG",
+	"Dubai":         "AE",
+	"Seoul":         "KR",
+	"Shanghai":      "CN",
+	"Hong Kong":     "HK",
+	"Moscow":        "RU",
+	"Cairo":         "EG",
+	"Vienna":        "AT",
+	"Zurich":        "CH",
+	"Stockholm":     "SE",
+	"Copenhagen":    "DK",
+	"Oslo":          "NO",
+	"Helsinki":      "FI",
+	"Warsaw":        "PL",
+	"Prague":        "CZ",
+	"Budapest":      "HU",
+	"Athens":        "GR",
+	"Lisbon":        "PT",
+	"Dublin":        "IE",
+	"Brussels":      "BE",
+	"Vancouver":     "CA",
+	"San Francisco": "US",
+	"Los Angeles":   "US",
+	"Chicago":       "US",
+	"Miami":         "US",
+	"Boston":        "US",
+	"Seattle":       "US",
+	"Melbourne":     "AU",
+	"Brisbane":      "AU",
+	"Perth":         "AU",
+	"Auckland":      "NZ",
+	"Wellington":    "NZ",
+	"Jakarta":       "ID",
+	"Kuala Lumpur":  "MY",
+	"Manila":        "PH",
+	"Hanoi":         "VN",
+	"Ho Chi Minh":   "VN",
+	"Tel Aviv":      "IL",
+	"Riyadh":        "SA",
+	"Jeddah":        "SA",
+	"Doha":          "QA",
+	"Muscat":        "OM",
+	"Nairobi":       "KE",
+	"Cape Town":     "ZA",
+	"Lagos":         "NG",
+	"Mexico City":   "MX",
+	"Sao Paulo":     "BR",
+	"Buenos Aires":  "AR",
+	"Santiago":      "CL",
+	"Lima":          "PE",
+	"Bogota":        "CO",
+}
+
+func getCountry(city string) string {
+	// First try exact match
+	if country, ok := cityCountries[city]; ok {
+		return country
+	}
+	// Try case-insensitive match
+	for name, country := range cityCountries {
+		if strings.EqualFold(name, city) {
+			return country
+		}
+	}
+	return "US"
+}
+
 func randomFloat(min, max float64) float64 {
 	return min + rand.Float64()*(max-min)
 }
@@ -73,7 +155,7 @@ func getCurrentWeather(c *gin.Context) {
 
 	response := CurrentWeatherResponse{
 		City:        city,
-		Country:     "US",
+		Country:     getCountry(city),
 		Temperature: randomFloat(10, 35),
 		Condition:   condition,
 		Humidity:    randomInt(30, 90),
@@ -94,7 +176,7 @@ func getForecast(c *gin.Context) {
 	for i := 0; i < 5; i++ {
 		condition, icon := getRandomCondition()
 		forecast[i] = ForecastDay{
-			Date:          baseDate.AddDate(0, 0, i+1).Format("2024-01-02"),
+			Date:          baseDate.AddDate(0, 0, i+1).Format("2006-01-02"),
 			TempMax:       randomFloat(20, 35),
 			TempMin:       randomFloat(10, 20),
 			Condition:     condition,
@@ -105,7 +187,7 @@ func getForecast(c *gin.Context) {
 
 	response := ForecastResponse{
 		City:     city,
-		Country:  "US",
+		Country:  getCountry(city),
 		Forecast: forecast,
 	}
 
@@ -121,7 +203,7 @@ func getHistory(c *gin.Context) {
 	for i := 0; i < 7; i++ {
 		condition, icon := getRandomCondition()
 		history[i] = HistoryDay{
-			Date:        baseDate.AddDate(0, 0, -(i + 1)).Format("2024-01-02"),
+			Date:        baseDate.AddDate(0, 0, -(i + 1)).Format("2006-01-02"),
 			Temperature: randomFloat(10, 30),
 			Condition:   condition,
 			Humidity:    randomInt(30, 90),
@@ -132,7 +214,7 @@ func getHistory(c *gin.Context) {
 
 	response := HistoryResponse{
 		City:    city,
-		Country: "US",
+		Country: getCountry(city),
 		History: history,
 	}
 

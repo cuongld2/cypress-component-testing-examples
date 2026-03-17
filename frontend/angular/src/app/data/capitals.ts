@@ -1,0 +1,100 @@
+export interface City {
+  name: string;
+  country: string;
+  countryCode: string;
+}
+
+export const capitals: City[] = [
+  { name: 'Abu Dhabi', country: 'United Arab Emirates', countryCode: 'AE' },
+  { name: 'Abuja', country: 'Nigeria', countryCode: 'NG' },
+  { name: 'Accra', country: 'Ghana', countryCode: 'GH' },
+  { name: 'Addis Ababa', country: 'Ethiopia', countryCode: 'ET' },
+  { name: 'Algiers', country: 'Algeria', countryCode: 'DZ' },
+  { name: 'Amman', country: 'Jordan', countryCode: 'JO' },
+  { name: 'Amsterdam', country: 'Netherlands', countryCode: 'NL' },
+  { name: 'Ankara', country: 'Turkey', countryCode: 'TR' },
+  { name: 'Athens', country: 'Greece', countryCode: 'GR' },
+  { name: 'Auckland', country: 'New Zealand', countryCode: 'NZ' },
+  { name: 'Bangkok', country: 'Thailand', countryCode: 'TH' },
+  { name: 'Beijing', country: 'China', countryCode: 'CN' },
+  { name: 'Berlin', country: 'Germany', countryCode: 'DE' },
+  { name: 'Bogota', country: 'Colombia', countryCode: 'CO' },
+  { name: 'Boston', country: 'United States', countryCode: 'US' },
+  { name: 'Brussels', country: 'Belgium', countryCode: 'BE' },
+  { name: 'Budapest', country: 'Hungary', countryCode: 'HU' },
+  { name: 'Buenos Aires', country: 'Argentina', countryCode: 'AR' },
+  { name: 'Cairo', country: 'Egypt', countryCode: 'EG' },
+  { name: 'Canberra', country: 'Australia', countryCode: 'AU' },
+  { name: 'Cape Town', country: 'South Africa', countryCode: 'ZA' },
+  { name: 'Caracas', country: 'Venezuela', countryCode: 'VE' },
+  { name: 'Chicago', country: 'United States', countryCode: 'US' },
+  { name: 'Copenhagen', country: 'Denmark', countryCode: 'DK' },
+  { name: 'Doha', country: 'Qatar', countryCode: 'QA' },
+  { name: 'Dubai', country: 'United Arab Emirates', countryCode: 'AE' },
+  { name: 'Dublin', country: 'Ireland', countryCode: 'IE' },
+  { name: 'Edinburgh', country: 'United Kingdom', countryCode: 'GB' },
+  { name: 'Hanoi', country: 'Vietnam', countryCode: 'VN' },
+  { name: 'Helsinki', country: 'Finland', countryCode: 'FI' },
+  { name: 'Ho Chi Minh', country: 'Vietnam', countryCode: 'VN' },
+  { name: 'Hong Kong', country: 'Hong Kong', countryCode: 'HK' },
+  { name: 'Honolulu', country: 'United States', countryCode: 'US' },
+  { name: 'Istanbul', country: 'Turkey', countryCode: 'TR' },
+  { name: 'Jakarta', country: 'Indonesia', countryCode: 'ID' },
+  { name: 'Johannesburg', country: 'South Africa', countryCode: 'ZA' },
+  { name: 'Kuala Lumpur', country: 'Malaysia', countryCode: 'MY' },
+  { name: 'Lima', country: 'Peru', countryCode: 'PE' },
+  { name: 'Lisbon', country: 'Portugal', countryCode: 'PT' },
+  { name: 'London', country: 'United Kingdom', countryCode: 'GB' },
+  { name: 'Los Angeles', country: 'United States', countryCode: 'US' },
+  { name: 'Madrid', country: 'Spain', countryCode: 'ES' },
+  { name: 'Manila', country: 'Philippines', countryCode: 'PH' },
+  { name: 'Melbourne', country: 'Australia', countryCode: 'AU' },
+  { name: 'Mexico City', country: 'Mexico', countryCode: 'MX' },
+  { name: 'Miami', country: 'United States', countryCode: 'US' },
+  { name: 'Milan', country: 'Italy', countryCode: 'IT' },
+  { name: 'Montreal', country: 'Canada', countryCode: 'CA' },
+  { name: 'Moscow', country: 'Russia', countryCode: 'RU' },
+  { name: 'Mumbai', country: 'India', countryCode: 'IN' },
+  { name: 'Muscat', country: 'Oman', countryCode: 'OM' },
+  { name: 'Nairobi', country: 'Kenya', countryCode: 'KE' },
+  { name: 'New Delhi', country: 'India', countryCode: 'IN' },
+  { name: 'New York', country: 'United States', countryCode: 'US' },
+  { name: 'Oslo', country: 'Norway', countryCode: 'NO' },
+  { name: 'Ottawa', country: 'Canada', countryCode: 'CA' },
+  { name: 'Paris', country: 'France', countryCode: 'FR' },
+  { name: 'Perth', country: 'Australia', countryCode: 'AU' },
+  { name: 'Philadelphia', country: 'United States', countryCode: 'US' },
+  { name: 'Prague', country: 'Czech Republic', countryCode: 'CZ' },
+  { name: 'Rio de Janeiro', country: 'Brazil', countryCode: 'BR' },
+  { name: 'Rome', country: 'Italy', countryCode: 'IT' },
+  { name: 'San Francisco', country: 'United States', countryCode: 'US' },
+  { name: 'Santiago', country: 'Chile', countryCode: 'CL' },
+  { name: 'Sao Paulo', country: 'Brazil', countryCode: 'BR' },
+  { name: 'Seattle', country: 'United States', countryCode: 'US' },
+  { name: 'Seoul', country: 'South Korea', countryCode: 'KR' },
+  { name: 'Shanghai', country: 'China', countryCode: 'CN' },
+  { name: 'Singapore', country: 'Singapore', countryCode: 'SG' },
+  { name: 'Stockholm', country: 'Sweden', countryCode: 'SE' },
+  { name: 'Sydney', country: 'Australia', countryCode: 'AU' },
+  { name: 'Taipei', country: 'Taiwan', countryCode: 'TW' },
+  { name: 'Tel Aviv', country: 'Israel', countryCode: 'IL' },
+  { name: 'Tokyo', country: 'Japan', countryCode: 'JP' },
+  { name: 'Toronto', country: 'Canada', countryCode: 'CA' },
+  { name: 'Vancouver', country: 'Canada', countryCode: 'CA' },
+  { name: 'Vienna', country: 'Austria', countryCode: 'AT' },
+  { name: 'Warsaw', country: 'Poland', countryCode: 'PL' },
+  { name: 'Washington D.C.', country: 'United States', countryCode: 'US' },
+  { name: 'Wellington', country: 'New Zealand', countryCode: 'NZ' },
+  { name: 'Zurich', country: 'Switzerland', countryCode: 'CH' },
+];
+
+export function searchCities(query: string): City[] {
+  if (!query || query.length < 1) return [];
+  const lowerQuery = query.toLowerCase();
+  return capitals
+    .filter(city => 
+      city.name.toLowerCase().includes(lowerQuery) ||
+      city.country.toLowerCase().includes(lowerQuery)
+    )
+    .slice(0, 10);
+}
