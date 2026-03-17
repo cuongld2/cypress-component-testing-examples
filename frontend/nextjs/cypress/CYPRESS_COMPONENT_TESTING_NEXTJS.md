@@ -261,15 +261,17 @@ frontend/nextjs/cypress/
 ## Running Tests
 
 ```bash
-# Open interactive test runner
+# Open interactive test runner (component mode)
 npm run cypress:open
 
-# Run all tests in headless mode
+# Run all component tests in headless mode
 npm run cypress:run
 
 # Run specific component tests
 npm run cypress:run -- --spec "cypress/components/CitySearch.cy.tsx"
 ```
+
+**Note:** The `--component` flag is required to run component tests (not e2e tests). This is configured in the npm scripts.
 
 ## Key Takeaways
 
