@@ -1,0 +1,27 @@
+{
+  "name": "svelte",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "cypress:open": "cypress open --component",
+    "cypress:run": "cypress run --component --spec 'cypress/components/**/*.cy.*'"
+  },
+  "devDependencies": {
+    "@cypress/svelte": "^3.0.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@tailwindcss/vite": "^4.0.0",
+    "@tsconfig/svelte": "^5.0.4",
+    "cypress": "^15.12.0",
+    "svelte": "^5.22.3",
+    "svelte-check": "^4.1.4",
+    "tailwindcss": "^4.0.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "type": "module"
+}
