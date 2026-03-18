@@ -16,7 +16,7 @@ export const HistoryList = component$<HistoryListProps>((props) => {
       {props.error && <div class="text-red-500">{props.error}</div>}
       {!props.history?.history.length && !props.loading && !props.error && <div class="text-gray-500">No history data available</div>}
       
-      {props.history?.history.length && (
+      {props.history?.history && props.history.history.length > 0 ? (
         <div class="space-y-3">
           {props.history.history.map((day, index) => (
             <div 
@@ -43,7 +43,7 @@ export const HistoryList = component$<HistoryListProps>((props) => {
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 });

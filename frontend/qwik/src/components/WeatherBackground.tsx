@@ -1,4 +1,4 @@
-import { component$, useComputed$ } from '@builder.io/qwik';
+import { component$ } from '@builder.io/qwik';
 import type { CurrentWeather } from '~/types/weather';
 
 interface WeatherBackgroundProps {
@@ -7,18 +7,10 @@ interface WeatherBackgroundProps {
 }
 
 export const WeatherBackground = component$<WeatherBackgroundProps>((props) => {
-  const getTimeOfDay = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return 'morning';
-    if (hour >= 12 && hour < 17) return 'afternoon';
-    if (hour >= 17 && hour < 20) return 'evening';
-    return 'night';
-  };
-
-  const getBackgroundClass = (condition: string, timeOfDay: string): string => {
+  const getBackgroundClass = (condition: string, icon?: string): string => {
     const conditionLower = condition.toLowerCase();
-    const isDay = timeOfDay === 'morning' || timeOfDay === 'afternoon';
-    const isEvening = timeOfDay === 'evening';
+    const isDay = icon?.endsWith('d') ?? true;
+    const isEvening = !isDay && conditionLower.includes('clear');
     
     if (conditionLower.includes('clear')) {
       if (isDay) return 'bg-sunny';
@@ -46,9 +38,8 @@ export const WeatherBackground = component$<WeatherBackgroundProps>((props) => {
     return 'bg-starry-night';
   };
 
-  const timeOfDay = getTimeOfDay();
-  const isDay = timeOfDay === 'morning' || timeOfDay === 'afternoon';
-  const backgroundClass = props.weather ? getBackgroundClass(props.weather.condition, timeOfDay) : 'bg-default';
+  const isDay = props.weather?.icon?.endsWith('d') ?? true;
+  const backgroundClass = props.weather ? getBackgroundClass(props.weather.condition, props.weather.icon) : 'bg-default';
   const condition = props.weather?.condition.toLowerCase() || '';
 
   return (

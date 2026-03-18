@@ -13,50 +13,64 @@ export const CitySearch = component$<CitySearchProps>((props) => {
   const selectedIndex = useSignal(-1);
   const wrapperRef = useSignal<HTMLDivElement>();
 
-  const handleInputChange = $((value: string) => {
+  const handleInput = $((e: Event) => {
+    const value = (e.target as HTMLInputElement).value;
     query.value = value;
     selectedIndex.value = -1;
     if (value.trim()) {
-      const results = searchCities(value);
-      suggestions.value = results;
-      showSuggestions.value = results.length > 0;
+      suggestions.value = searchCities(value);
+      showSuggestions.value = suggestions.value.length > 0;
     } else {
       suggestions.value = [];
       showSuggestions.value = false;
     }
   });
 
-  const handleSelectCity = $((city: City) => {
+  const selectCity = $((city: City) => {
     query.value = city.name;
     showSuggestions.value = false;
     suggestions.value = [];
     props.onSearch$(city.name);
   });
 
+  const doSearch = $((value: string) => {
+    if (props.loading) return;
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    props.onSearch$(trimmed);
+  });
+
   const handleSubmit = $((e: Event) => {
     e.preventDefault();
     if (selectedIndex.value >= 0 && suggestions.value[selectedIndex.value]) {
-      handleSelectCity(suggestions.value[selectedIndex.value]);
-    } else if (query.value.trim()) {
-      props.onSearch$(query.value.trim());
-      showSuggestions.value = false;
+      selectCity(suggestions.value[selectedIndex.value]);
+    } else {
+      doSearch(query.value);
+    }
+  });
+
+  const handleButtonClick = $((e: MouseEvent) => {
+    e.preventDefault();
+    if (selectedIndex.value >= 0 && suggestions.value[selectedIndex.value]) {
+      selectCity(suggestions.value[selectedIndex.value]);
+    } else {
+      doSearch(query.value);
     }
   });
 
   const handleKeyDown = $((e: KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      selectedIndex.value = selectedIndex.value < suggestions.value.length - 1 ? selectedIndex.value + 1 : selectedIndex.value;
+      selectedIndex.value = Math.min(selectedIndex.value + 1, suggestions.value.length - 1);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      selectedIndex.value = selectedIndex.value > 0 ? selectedIndex.value - 1 : -1;
+      selectedIndex.value = Math.max(selectedIndex.value - 1, -1);
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (selectedIndex.value >= 0 && suggestions.value[selectedIndex.value]) {
-        handleSelectCity(suggestions.value[selectedIndex.value]);
+        selectCity(suggestions.value[selectedIndex.value]);
       } else if (query.value.trim()) {
-        props.onSearch$(query.value.trim());
-        showSuggestions.value = false;
+        doSearch(query.value);
       }
     } else if (e.key === 'Escape') {
       showSuggestions.value = false;
@@ -64,13 +78,13 @@ export const CitySearch = component$<CitySearchProps>((props) => {
   });
 
   useVisibleTask$(({ cleanup }) => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.value && !wrapperRef.value.contains(event.target as Node)) {
+    const handler = (e: MouseEvent) => {
+      if (wrapperRef.value && !wrapperRef.value.contains(e.target as Node)) {
         showSuggestions.value = false;
       }
     };
-    document.addEventListener('click', handleClickOutside);
-    cleanup(() => document.removeEventListener('click', handleClickOutside));
+    document.addEventListener('click', handler);
+    cleanup(() => document.removeEventListener('click', handler));
   });
 
   return (
@@ -80,9 +94,8 @@ export const CitySearch = component$<CitySearchProps>((props) => {
           <input
             type="text"
             value={query.value}
-            onInput$={(e) => handleInputChange((e.target as HTMLInputElement).value)}
+            onInput$={handleInput}
             onKeyDown$={handleKeyDown}
-            onFocus$={() => query.value.trim() && suggestions.value.length > 0 && (showSuggestions.value = true)}
             placeholder="Search for a city..."
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             data-cy="city-input"
@@ -90,7 +103,8 @@ export const CitySearch = component$<CitySearchProps>((props) => {
           />
         </div>
         <button
-          type="submit"
+          type="button"
+          onClick$={handleButtonClick}
           disabled={props.loading || !query.value.trim()}
           class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
           data-cy="search-button"
@@ -99,25 +113,17 @@ export const CitySearch = component$<CitySearchProps>((props) => {
         </button>
       </form>
 
-      {showSuggestions.value && (
-        <ul 
-          class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-y-auto"
-          data-cy="city-suggestions"
-        >
-          {suggestions.value.map((city, index) => (
+      {showSuggestions.value && suggestions.value.length > 0 && (
+        <ul class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-y-auto" data-cy="city-suggestions">
+          {suggestions.value.map((city, i) => (
             <li
               key={city.name + city.countryCode}
-              onClick$={() => handleSelectCity(city)}
-              class={`px-4 py-3 cursor-pointer hover:bg-blue-50 flex items-center justify-between ${index === selectedIndex.value ? 'bg-blue-50' : ''}`}
-              data-cy={`city-suggestion-${index}`}
-              role="option"
-              aria-selected={index === selectedIndex.value}
+              onClick$={() => selectCity(city)}
+              class={`px-4 py-3 cursor-pointer hover:bg-blue-50 ${i === selectedIndex.value ? 'bg-blue-50' : ''}`}
+              data-cy={`city-suggestion-${i}`}
             >
-              <div>
-                <span class="font-medium text-gray-900">{city.name}</span>
-                <span class="text-gray-500 text-sm ml-2">{city.country}</span>
-              </div>
-              <span class="text-xs text-gray-400">{city.countryCode}</span>
+              <span class="font-medium">{city.name}</span>
+              <span class="text-gray-500 text-sm ml-2">{city.country}</span>
             </li>
           ))}
         </ul>

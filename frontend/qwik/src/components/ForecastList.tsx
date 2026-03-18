@@ -16,7 +16,7 @@ export const ForecastList = component$<ForecastListProps>((props) => {
       {props.error && <div class="text-red-500">{props.error}</div>}
       {!props.forecast?.forecast.length && !props.loading && !props.error && <div class="text-gray-500">No forecast data available</div>}
       
-      {props.forecast?.forecast.length && (
+      {props.forecast?.forecast && props.forecast.forecast.length > 0 ? (
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {props.forecast.forecast.map((day, index) => (
             <div 
@@ -37,7 +37,7 @@ export const ForecastList = component$<ForecastListProps>((props) => {
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 });

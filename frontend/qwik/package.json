@@ -19,7 +19,7 @@
     "@types/node": "^22.0.0",
     "autoprefixer": "^10.4.20",
     "cypress": "^15.12.0",
-    "cypress-ct-qwik": "^0.3.0",
+    "cypress-ct-qwik": "file:../../../cypress-qwik-fix-types-support/dist/packages/cypress-ct-qwik",
     "ignore": "^7.0.5",
     "postcss": "^8.5.1",
     "tailwindcss": "^4.0.0",
