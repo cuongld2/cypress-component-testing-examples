@@ -1,0 +1,23 @@
+{
+  "name": "lit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "cypress:open": "cypress open --component",
+    "cypress:run": "cypress run --component --spec 'cypress/components/**/*.cy.*'"
+  },
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "cypress": "^15.12.0",
+    "cypress-ct-lit": "^1.0.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.7"
+  }
+}
